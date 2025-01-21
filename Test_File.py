@@ -45,7 +45,7 @@ def delete_user():
     username = request.form.get('username')
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
-    cursor.execute(f"DELETE FROM users WHERE username = '{username}'")
+    cursor.execute("DELETE FROM users WHERE username = ?", (username,))
     conn.commit()
     conn.close()
 
