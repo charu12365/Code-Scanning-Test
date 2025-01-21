@@ -34,11 +34,20 @@ def login():
     else:
         return "Invalid credentials"
 
+ALLOWED_COMMANDS = {
+    "list": "ls",
+    "status": "status",
+    "uptime": "uptime"
+}
+
 @app.route('/run', methods=['POST'])
 def run():
     command = request.form.get('command')
-    result = subprocess.check_output(command, shell=True)
-    return result
+    if command in ALLOWED_COMMANDS:
+        result = subprocess.check_output(ALLOWED_COMMANDS[command], shell=True)
+        return result
+    else:
+        return "Invalid command", 400
 
 @app.route('/delete_user', methods=['POST'])
 def delete_user():
